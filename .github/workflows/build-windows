@@ -1,0 +1,56 @@
+name: Build Windows
+
+on:
+  workflow_dispatch:   # 手动触发
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 90
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.24.1"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.47.4"
+          channel: stable
+          cache: true
+
+      - name: Enable Windows desktop
+        run: flutter config --enable-windows-desktop
+
+      - name: Setup MSVC (via VS)
+        uses: microsoft/setup-msbuild@v2
+
+      # MinGW for Go c-shared (duanju_core.dll)
+      - name: Install MinGW
+        run: |
+          choco install mingw -y
+          echo "C:\ProgramData\mingw64\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Build Windows (all sources)
+        env:
+          GOPROXY: https://proxy.golang.org,direct
+        run: |
+          python scripts/build_windows.py --all-sources
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zhenguojian-windows-x64
+          path: |
+            dist/windows/*.zip
+            build/windows/x64/runner/Release/**
+          if-no-files-found: warn
