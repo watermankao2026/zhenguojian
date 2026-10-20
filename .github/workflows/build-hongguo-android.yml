@@ -74,7 +74,7 @@ jobs:
       - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: zhenguojian-android
+          name: hongguo-android
           path: |
             dist/android/**
             build/app/outputs/flutter-apk/*.apk
