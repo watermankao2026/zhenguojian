@@ -2,11 +2,7 @@ name: Build Android
 
 on:
   workflow_dispatch:          # 手动触发
-  push:
-    branches: [main, master]
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
+  
 
 jobs:
   build:
