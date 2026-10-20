@@ -55,7 +55,7 @@ jobs:
           go version
           java -version
 
-      - name: Build Android x86_64 (all sources)
+      - name: Build Android (hongguo)
         env:
           ANDROID_HOME: ${{ env.ANDROID_HOME }}
           ANDROID_SDK_ROOT: ${{ env.ANDROID_HOME }}
@@ -78,10 +78,10 @@ jobs:
       - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: zhenguojian-android-x86_64
+          name: zhenguojian-android
           path: |
             dist/android/**
-            build/app/outputs/flutter-apk/*x86_64*.apk
-            build/app/outputs/flutter-apk/*x64*.apk
+            build/app/outputs/flutter-apk/*.apk
+            build/app/outputs/flutter-apk/*.apk
           if-no-files-found: warn
           retention-days: 14
