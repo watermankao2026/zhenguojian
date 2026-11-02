@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-const hongguoPlaybackAPI = "https://djapi.999888456.xyz/api/hongguo/play"
+const hongguoPlaybackAPI = "http://djapi.999888456.xyz/api/hongguo/play"
 
 var hongguoNumericID = regexp.MustCompile(`^[0-9]{1,32}$`)
 
